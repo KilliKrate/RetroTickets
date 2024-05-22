@@ -1,0 +1,3 @@
+CREATE TABLE utenti (username VARCHAR(63) NOT NULL,password VARCHAR(63) NOT NULL,nome VARCHAR(255) NOT NULL,cognome VARCHAR(255) NOT NULL, data_nascita DATE NOT NULL, email VARCHAR(255) NOT NULL, num_telefono CHAR(10) NOT NULL,PRIMARY KEY (username),CONSTRAINT email UNIQUE (email));
+
+INSERT INTO utenti VALUES ('Pippo', '123stella', 'Pippolone', 'Dei Pippoloni', '2012-11-11', 'ciao@pornhub.com', '0123456789');

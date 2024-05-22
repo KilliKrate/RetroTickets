@@ -13,6 +13,11 @@
         <element id="directory" name="classes">
           <element id="module-output" name="RetroTickets" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.apache.derby:derbyclient:10.16.1.1" />
+          <element id="library" level="project" name="Maven: org.apache.derby:derbyshared:10.16.1.1" />
+          <element id="library" level="project" name="Maven: org.apache.derby:derbytools:10.16.1.1" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/RetroTickets-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
