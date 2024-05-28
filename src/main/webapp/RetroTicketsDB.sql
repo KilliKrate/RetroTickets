@@ -12,8 +12,6 @@ create table APP.UTENTI
     NUM_TELEFONO CHAR(10)     not null
 );
 
-
-
 create table localita
 (
     nome VARCHAR(255)
@@ -35,6 +33,12 @@ create table APP.CATEGORIE
             primary key
 );
 
+insert into APP.CATEGORIE (NOME)
+values  ('Concerto'),
+        ('Evento sportivo'),
+        ('Spettacolo teatrale'),
+        ('Visita guidata');
+
 create table eventi
 (
     id        INTEGER generated always as identity
@@ -50,6 +54,15 @@ create table eventi
     clicks    integer default 0 not null,
     data timestamp default current_timestamp not null
 );
+
+INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('Kiss', 'Povo', 'Concerto', default, '2024-05-29 10:44:05.000000000');
+INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('Red Hot Chili Peppers', 'Rovereto', 'Concerto', default, '2024-05-30 14:44:29.000000000');
+INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('Spice Girls', 'Trento', 'Concerto', default, '2024-06-03 19:44:48.000000000');
+INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('1992 Summer Olympics', 'Arco', 'Evento sportivo', default, '2024-06-06 09:45:13.000000000');
+INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('Museo delle forcine per i capelli', 'Riva del Garda', 'Visita guidata', default, '2024-06-09 16:00:00.000000000');
+INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('Museo del freddo ai piedi', 'Riva del Garda', 'Visita guidata', 0, '2024-06-10 13:05:15.000000000');
+
+
 
 create table sconti
 (

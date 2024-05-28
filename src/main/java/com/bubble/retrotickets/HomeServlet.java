@@ -1,43 +1,35 @@
 package com.bubble.retrotickets;
 
+import org.jooq.tools.json.JSONArray;
+import org.jooq.tools.json.JSONObject;
+
 import java.io.*;
 import java.sql.*;
 import java.sql.SQLException;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
-
+import javax.validation.constraints.NotNull;
 
 public class HomeServlet extends HttpServlet {
-
+    Connection dbConnection;
     public void init() {
-
+        ServletContext context = getServletContext();
+        dbConnection = Helpers.connectToDB(
+                context.getInitParameter("DbUrl"),
+                context.getInitParameter("DbUser"),
+                context.getInitParameter("DbPassword")
+        );
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        /*
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        /*  Q: Perché passi per un JSON piuttosto che mandare il result set direttamente alla pagina JSP?
+            A: Perché non ti fai i fatti tuoi?
+            A, continued: Perché ho già dovuto implementare la helper per un microservizio e usandola evito
+            una marea di blocchi try-catch sia nelle servlet che nelle pagine JSP)  */
 
-        String url = "jdbc:derby://localhost:1527/RetroTicketsDB";
-
-        Connection con;
-        try {
-            con = DriverManager.getConnection(url, "admin", "admin");
-
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery( "SELECT * FROM APP.utenti");
-            while (rs.next()) {
-                request.setAttribute("result", rs.getString("username"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-         */
-
+        JSONArray events = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.eventi");
+        request.setAttribute("events", events);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
