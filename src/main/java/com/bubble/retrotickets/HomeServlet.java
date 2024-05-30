@@ -29,7 +29,9 @@ public class HomeServlet extends HttpServlet {
             una marea di blocchi try-catch sia nelle servlet che nelle pagine JSP)  */
 
         JSONArray events = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.eventi");
+        JSONArray categories = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.categorie");
         request.setAttribute("events", events);
+        request.setAttribute("categories", categories);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 

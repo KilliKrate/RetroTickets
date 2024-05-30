@@ -36,7 +36,7 @@ public class Helpers {
     public static JSONArray queryResultsToJson(Connection dbConnection, String sql) {
         try {
             Statement stmt = dbConnection.createStatement();
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM APP.eventi");
+            ResultSet resultSet = stmt.executeQuery(sql);
 
             JSONArray json = new JSONArray();
             ResultSetMetaData rsmd = resultSet.getMetaData();

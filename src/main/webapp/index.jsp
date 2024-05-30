@@ -23,12 +23,22 @@
         </div>
     </div>
 
+    <nav class="navbar bg-body-tertiary justify-content-center mb-3">
+        <%
+            JSONArray categories = (JSONArray) request.getAttribute("categories");
+            for (Object o : categories) {
+                JSONObject category = (JSONObject) o;
+        %>
+        <a href="#" class="p-2 mx-3" data-category="<%=category.get("NOME")%>"><%= category.get("NOME")%>
+        </a>
+        <% } %>
+    </nav>
+
 
     <%
         JSONArray events = (JSONArray) request.getAttribute("events");
 
-        if (events != null) {
-    %>
+        if (events != null) { %>
     <table class="table">
         <thead>
         <tr>
@@ -40,7 +50,7 @@
             <th scope="col">Data</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="events-table">
         <%
             for (Object o : events) {
                 JSONObject event = (JSONObject) o;
@@ -53,18 +63,12 @@
             <td><%= event.get("CLICKS")%></td>
             <td><%= event.get("DATA")%></td>
         </tr>
-        <%
-            }
-        %>
+        <% } %>
         </tbody>
     </table>
-    <%
-    } else {
-    %>
+    <% } else { %>
     Nothing to see here
-    <%
-        }
-    %>
+    <% } %>
 
 
 </div>
@@ -76,6 +80,31 @@
 
 <script>
 
+    function updateTable(events_list) {
+        let old_tbody = document.getElementById("events-table");
+        let new_tbody = document.createElement("tbody");
+        new_tbody.id = "events-table";
+        for (const event of events_list) {
+            let row = document.createElement("tr");
+            row.insertAdjacentHTML('beforeend', "<th scope=\"row\">" + event["ID"] + "</th>")
+            row.insertAdjacentHTML('beforeend', "<td>" + event["NOME"] + "</td>")
+            row.insertAdjacentHTML('beforeend', "<td>" + event["LOCALITA"] + "</td>")
+            row.insertAdjacentHTML('beforeend', "<td>" + event["CATEGORIA"] + "</td>")
+            row.insertAdjacentHTML('beforeend', "<td>" + event["CLICKS"] + "</td>")
+            row.insertAdjacentHTML('beforeend', "<td>" + event["DATA"] + "</td>")
+            new_tbody.appendChild(row);
+        }
+        old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
+    }
+
+    let navLink = document.querySelectorAll('a[data-category]');
+    for (const x of navLink) {
+        x.addEventListener("click", async (e) => {
+            const response = await fetch("/RetroTickets_war_exploded/events?category=" + x.dataset.category);
+            const events = await response.json();
+            updateTable(events);
+        })
+    }
 
 </script>
 </body>

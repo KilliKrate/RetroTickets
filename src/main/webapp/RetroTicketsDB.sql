@@ -1,4 +1,4 @@
-create table APP.UTENTI
+create table utenti
 (
     USERNAME     VARCHAR(63)  not null
         constraint UTENTI_PK
@@ -19,14 +19,14 @@ create table localita
             primary key
 );
 
-insert into APP.LOCALITA (NOME)
+insert into localita (NOME)
 values  ('Arco'),
         ('Povo'),
         ('Riva del Garda'),
         ('Rovereto'),
         ('Trento');
 
-create table APP.CATEGORIE
+create table categorie
 (
     NOME VARCHAR(255) not null
         constraint CATEGORIE_PK
@@ -61,8 +61,6 @@ INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('Spice 
 INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('1992 Summer Olympics', 'Arco', 'Evento sportivo', default, '2024-06-06 09:45:13.000000000');
 INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('Museo delle forcine per i capelli', 'Riva del Garda', 'Visita guidata', default, '2024-06-09 16:00:00.000000000');
 INSERT INTO APP.EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA) VALUES ('Museo del freddo ai piedi', 'Riva del Garda', 'Visita guidata', 0, '2024-06-10 13:05:15.000000000');
-
-
 
 create table sconti
 (

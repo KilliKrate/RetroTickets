@@ -26,8 +26,13 @@ public class EventsController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        String test = request.getQueryString();
+        String category = request.getParameter("category");
+        if (category == null) {
+            category = "%";
+        }
 
-        String results = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.eventi").toString();
+        String results = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.eventi WHERE categoria LIKE '"+ category + "'").toString();
         response.getWriter().write(results);
     }
 
