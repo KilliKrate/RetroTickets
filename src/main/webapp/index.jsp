@@ -10,6 +10,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <style>
+        tr {
+            position: relative;
+            background-clip: padding-box
+        }
+    </style>
+
 </head>
 <body>
 
@@ -39,15 +46,14 @@
         JSONArray events = (JSONArray) request.getAttribute("events");
 
         if (events != null) { %>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Nome</th>
             <th scope="col">Località</th>
             <th scope="col">Categoria</th>
             <th scope="col">Clicks</th>
-            <th scope="col">Data</th>
+            <th scope="col">Data e ora</th>
         </tr>
         </thead>
         <tbody id="events-table">
@@ -56,8 +62,7 @@
                 JSONObject event = (JSONObject) o;
         %>
         <tr>
-            <th scope="row"><%= event.get("ID")%></th>
-            <td><%= event.get("NOME")%></td>
+            <td><a class="stretched-link" href="events/<%= event.get("ID") %>"><%= event.get("NOME")%></a></td>
             <td><%= event.get("LOCALITA")%></td>
             <td><%= event.get("CATEGORIA")%></td>
             <td><%= event.get("CLICKS")%></td>
@@ -86,8 +91,7 @@
         new_tbody.id = "events-table";
         for (const event of events_list) {
             let row = document.createElement("tr");
-            row.insertAdjacentHTML('beforeend', "<th scope=\"row\">" + event["ID"] + "</th>")
-            row.insertAdjacentHTML('beforeend', "<td>" + event["NOME"] + "</td>")
+            row.insertAdjacentHTML('beforeend', "<td><a class='stretched-link' href='events/"+ event["ID"] + "'>" + event["NOME"] + "</a></td>")
             row.insertAdjacentHTML('beforeend', "<td>" + event["LOCALITA"] + "</td>")
             row.insertAdjacentHTML('beforeend', "<td>" + event["CATEGORIA"] + "</td>")
             row.insertAdjacentHTML('beforeend', "<td>" + event["CLICKS"] + "</td>")

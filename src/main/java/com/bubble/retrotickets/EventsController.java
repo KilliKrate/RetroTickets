@@ -1,5 +1,7 @@
 package com.bubble.retrotickets;
 
+import org.jooq.tools.json.JSONArray;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,18 +24,35 @@ public class EventsController extends HttpServlet {
         );
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String test = request.getQueryString();
-        String category = request.getParameter("category");
-        if (category == null) {
-            category = "%";
+        String pathInfo = request.getPathInfo();
+
+        if (pathInfo == null) {
+            JSONArray eventJSON = getEventResource(
+                    request.getParameter("id"),
+                    request.getParameter("category"));
+            response.getWriter().write(eventJSON.toString());
+        } else {
+            request.setAttribute("event", getEventResource(pathInfo.substring(1), null).get(0));
+            request.getRequestDispatcher("/views/event.jsp").forward(request, response);
+        }
+    }
+
+    private JSONArray getEventResource(String id, String category) {
+        String sql = "SELECT * FROM APP.eventi";
+
+        if (id != null) {
+            sql = "SELECT * FROM APP.eventi WHERE id = "+ id;
+        }
+        else if (category != null) {
+            sql = "SELECT * FROM APP.eventi WHERE categoria LIKE '"+ category + "'";
         }
 
-        String results = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.eventi WHERE categoria LIKE '"+ category + "'").toString();
-        response.getWriter().write(results);
+        return Helpers.queryResultsToJson(dbConnection, sql);
+
     }
 
     public void destroy() {

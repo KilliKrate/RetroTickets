@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <servlet>
-        <servlet-name>HomeServlet</servlet-name>
-        <servlet-class>com.bubble.retrotickets.HomeServlet</servlet-class>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>com.bubble.retrotickets.HomeController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>HomeServlet</servlet-name>
+        <servlet-name>HomeController</servlet-name>
         <url-pattern></url-pattern>
     </servlet-mapping>
 
@@ -19,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>EventsController</servlet-name>
         <url-pattern>/events</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EventsController</servlet-name>
+        <url-pattern>/events/*</url-pattern>
     </servlet-mapping>
 
     <context-param>
