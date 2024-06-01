@@ -25,6 +25,15 @@
         <url-pattern>/events/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SeatsController</servlet-name>
+        <servlet-class>com.bubble.retrotickets.SeatsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SeatsController</servlet-name>
+        <url-pattern>/seats</url-pattern>
+    </servlet-mapping>
+
     <context-param>
         <param-name>DbUrl</param-name>
         <param-value>jdbc:derby://localhost:1527/RetroTicketsDB</param-value>

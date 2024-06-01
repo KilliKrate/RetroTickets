@@ -1,6 +1,7 @@
 package com.bubble.retrotickets;
 
 import org.jooq.tools.json.JSONArray;
+import org.jooq.tools.json.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -51,8 +52,14 @@ public class EventsController extends HttpServlet {
             sql = "SELECT * FROM APP.eventi WHERE categoria LIKE '"+ category + "'";
         }
 
-        return Helpers.queryResultsToJson(dbConnection, sql);
+        JSONArray result = Helpers.queryResultsToJson(dbConnection, sql);
+        for (Object o : result) {
+            JSONObject obj = (JSONObject) o;
+            JSONArray seats = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.posti WHERE evento = " + obj.get("ID"));
+            obj.put("POSTI", seats);
+        }
 
+        return result;
     }
 
     public void destroy() {
