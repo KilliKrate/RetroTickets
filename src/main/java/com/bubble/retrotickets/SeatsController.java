@@ -35,13 +35,13 @@ public class SeatsController extends HttpServlet {
     }
 
     private JSONArray getSeatResource(String evento, String nome) {
-        String sql = "SELECT * FROM APP.posti";
+        String sql = "SELECT * FROM posti";
 
         if (evento != null && nome != null) {
-            sql = "SELECT * FROM APP.eventi WHERE evento = " + evento + " AND nome = " + nome;
+            sql = "SELECT * FROM eventi WHERE evento = " + evento + " AND nome = " + nome;
         }
         else if (evento != null) {
-            sql = "SELECT * FROM APP.eventi WHERE evento = " + evento;
+            sql = "SELECT * FROM eventi WHERE evento = " + evento;
         }
         return Helpers.queryResultsToJson(dbConnection, sql);
     }

@@ -20,8 +20,8 @@ public class HomeController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        JSONArray events = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.eventi");
-        JSONArray categories = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.categorie");
+        JSONArray events = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM eventi");
+        JSONArray categories = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM categorie");
         request.setAttribute("events", events);
         request.setAttribute("categories", categories);
         request.getRequestDispatcher("index.jsp").forward(request, response);

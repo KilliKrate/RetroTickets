@@ -43,19 +43,19 @@ public class EventsController extends HttpServlet {
     }
 
     private JSONArray getEventResource(String id, String category) {
-        String sql = "SELECT * FROM APP.eventi";
+        String sql = "SELECT * FROM eventi";
 
         if (id != null) {
-            sql = "SELECT * FROM APP.eventi WHERE id = "+ id;
+            sql = "SELECT * FROM eventi WHERE id = "+ id;
         }
         else if (category != null) {
-            sql = "SELECT * FROM APP.eventi WHERE categoria LIKE '"+ category + "'";
+            sql = "SELECT * FROM eventi WHERE categoria LIKE '"+ category + "'";
         }
 
         JSONArray result = Helpers.queryResultsToJson(dbConnection, sql);
         for (Object o : result) {
             JSONObject obj = (JSONObject) o;
-            JSONArray seats = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM APP.posti WHERE evento = " + obj.get("ID"));
+            JSONArray seats = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM posti WHERE evento = " + obj.get("ID"));
             obj.put("POSTI", seats);
         }
 

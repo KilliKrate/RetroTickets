@@ -36,7 +36,7 @@
             for (Object o : categories) {
                 JSONObject category = (JSONObject) o;
         %>
-        <a href="#" class="p-2 mx-3" data-category="<%=category.get("NOME")%>"><%= category.get("NOME")%>
+        <a href="#" class="p-2 mx-3" data-category="<%=category.get("NOME")%>"><%= category.get("NOME") %>
         </a>
         <% } %>
     </nav>
