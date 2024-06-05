@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.*;
+import java.util.Locale;
 
 // TODO: Implement session-based database connection instead of dedicated
 
@@ -60,8 +62,5 @@ public class EventsController extends HttpServlet {
         }
 
         return result;
-    }
-
-    public void destroy() {
     }
 }

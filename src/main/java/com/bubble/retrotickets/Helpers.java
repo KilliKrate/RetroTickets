@@ -1,8 +1,5 @@
 package com.bubble.retrotickets;
 
-import org.jooq.Record;
-import org.jooq.RecordMapper;
-import org.jooq.impl.DSL;
 import org.jooq.tools.json.JSONArray;
 import org.jooq.tools.json.JSONObject;
 import org.jooq.tools.json.JSONParser;
@@ -12,10 +9,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.*;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Helpers {
 
@@ -56,7 +50,7 @@ public class Helpers {
         }
     }
 
-    public static JSONObject apiResultsToJson(String apiUrl, String method) {
+    public static JSONArray apiResultsToJson(String apiUrl, String method) {
         try {
             URL url = new URL(apiUrl);
 
@@ -70,14 +64,14 @@ public class Helpers {
             if (responsecode != 200) {
                 throw new RuntimeException("HttpResponseCode: " + responsecode);
             }
-            return getJsonObject(url);
+            return getJsonArray(url);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static JSONObject getJsonObject(URL url) throws IOException, ParseException {
+    private static JSONArray getJsonArray(URL url) throws IOException, ParseException {
         String inline = "";
         Scanner scanner = new Scanner(url.openStream());
 
@@ -91,7 +85,7 @@ public class Helpers {
 
         //Using the JSON simple library parse the string into a json object
         JSONParser parse = new JSONParser();
-        JSONObject data_obj = (JSONObject) parse.parse(inline);
+        JSONArray data_obj = (JSONArray) parse.parse(inline);
         return data_obj;
     }
 }

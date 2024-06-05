@@ -1,7 +1,7 @@
 <%@ page import="org.jooq.tools.json.JSONObject" %>
-<%@ page import="org.jooq.JSONArrayAggNullStep" %>
 <%@ page import="org.jooq.tools.json.JSONArray" %>
-<%@ page import="org.jooq.JSON" %>
+<%@ page import="com.bubble.retrotickets.Helpers" %>
+<%@ page import="com.bubble.retrotickets.DiscountsController" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="it">
@@ -25,7 +25,20 @@
 </head>
 <body>
 
-<% JSONObject event = (JSONObject) request.getAttribute("event"); %>
+<%
+    JSONObject event = (JSONObject) request.getAttribute("event");
+
+    JSONArray discounts = Helpers.apiResultsToJson(
+            pageContext.getServletContext().getAttribute("root") + "/discounts",
+            "GET"
+    );
+    JSONObject discount = DiscountsController.getDiscountById(discounts, (int) event.get("ID"));
+    Double percentage = null;
+
+    if (discount != null) {
+        percentage = (Double) discount.get("PERCENTUALE");
+    }
+%>
 
 <div class="container mt-5">
     <div class="d-flex align-items-center mb-3">
@@ -52,13 +65,20 @@
             <div class="my-3">
                 <%
                     JSONArray posti = (JSONArray) event.get("POSTI");
+
                     for (Object o : posti) {
                         JSONObject posto = (JSONObject) o;
                 %>
                 <div class="card my-2">
                     <form class="card-body p-0 ps-3 d-flex align-items-center justify-content-between">
                         <div class="h-100">
-                            <p class="m-0"><span class="fw-bold me-3"><%=posto.get("NOME")%></span><%=posto.get("PREZZO")%>€</p>
+                            <p class="m-0"><span class="fw-bold me-3"><%=posto.get("NOME")%>
+                                <% if (discount != null) {%>
+                            </span> <s class="me-2"><%=posto.get("PREZZO")%>€</s>
+                                <%=DiscountsController.getDiscountedPrice(posto, percentage)%>€</p>
+                            <%} else {%>
+                                </span><%=posto.get("PREZZO")%>€</span>
+                            <%}%>
                             <input type="hidden" name="name" value="<%=posto.get("NOME")%>">
                         </div>
                         <button type="submit" class="btn btn-primary p-3">Acquista</button>

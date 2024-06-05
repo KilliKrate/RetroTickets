@@ -4,6 +4,7 @@ import org.jooq.tools.json.JSONArray;
 
 import java.io.*;
 import java.sql.*;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -22,6 +23,9 @@ public class HomeController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         JSONArray events = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM eventi");
         JSONArray categories = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM categorie");
+
+        getServletContext().setAttribute("root", request.getRequestURL());
+
         request.setAttribute("events", events);
         request.setAttribute("categories", categories);
         request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -29,4 +33,8 @@ public class HomeController extends HttpServlet {
 
     public void destroy() {
     }
+
+
+
+
 }

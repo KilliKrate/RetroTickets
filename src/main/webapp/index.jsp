@@ -46,7 +46,7 @@
         JSONArray events = (JSONArray) request.getAttribute("events");
 
         if (events != null) { %>
-    <table class="table table-hover">
+    <table class="table table-hover mb-4">
         <thead>
         <tr>
             <th scope="col">Nome</th>
@@ -75,6 +75,9 @@
     Nothing to see here
     <% } %>
 
+    <div class="alert alert-warning" role="alert" id="discounts">
+
+    </div>
 
 </div>
 
@@ -101,6 +104,31 @@
         old_tbody.parentNode.replaceChild(new_tbody, old_tbody);
     }
 
+    async function updateDiscounts() {
+            const response = await fetch("/RetroTickets_war_exploded/discounts");
+            const discounts = await response.json();
+            console.log(discounts);
+
+            let el = document.getElementById("discounts");
+            el.innerHTML = "";
+
+            const d = new Date();
+            el.insertAdjacentHTML('beforeend', '<p class="lead mb-3">Ultimi sconti, aggiornati il '+d.toLocaleString()+'</p>')
+
+            for (const discount of discounts) {
+                let card = document.createElement("div")
+                card.className += "card mb-2";
+
+                let card_body = document.createElement("div")
+                card_body.className += "card-body";
+
+                card_body.insertAdjacentHTML('beforeend', 'Biglietti per <span class="fw-bold">'+discount["NOME"]+'</span>' +
+                    ' in sconto del <span class="fw-bold">'+discount["PERCENTUALE"]+'</span>%!');
+                card.appendChild(card_body);
+                el.appendChild(card);
+            }
+    }
+
     let navLink = document.querySelectorAll('a[data-category]');
     for (const x of navLink) {
         x.addEventListener("click", async (e) => {
@@ -109,6 +137,10 @@
             updateTable(events);
         })
     }
+
+    updateDiscounts();
+    let interval = window.setInterval(updateDiscounts, 15000);
+
 
 </script>
 </body>

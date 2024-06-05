@@ -29,9 +29,19 @@
         <servlet-name>SeatsController</servlet-name>
         <servlet-class>com.bubble.retrotickets.SeatsController</servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>SeatsController</servlet-name>
         <url-pattern>/seats</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DiscountsController</servlet-name>
+        <servlet-class>com.bubble.retrotickets.DiscountsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DiscountsController</servlet-name>
+        <url-pattern>/discounts</url-pattern>
     </servlet-mapping>
 
     <context-param>
