@@ -45,10 +45,13 @@ public class AccessController extends HttpServlet {
                     Helpers.executeUpdateResults(dbConnection, sql);
 
                     Cookie authCookie = new Cookie("auth", session);
+                    HttpSession authSession = request.getSession(true);
+                    authSession.setAttribute("auth", session);
+                    response.encodeURL(appPath);
                     authCookie.setMaxAge(60*60*24);
                     authCookie.setPath(appPath);
                     response.addCookie(authCookie);
-                    response.sendRedirect(appPath);
+                    request.getRequestDispatcher("/").forward(request, response);
                 } else {
                     response.setStatus(401);
                 }
@@ -57,17 +60,22 @@ public class AccessController extends HttpServlet {
                 //get register data
                 //call register function
                 //add session to db
-                response.sendRedirect(appPath);
+                request.getRequestDispatcher("/").forward(request, response);
                 break;
             case "logout":
                 Cookie authCookieRemove = new Cookie("auth", "");
                 authCookieRemove.setPath(appPath);
                 authCookieRemove.setMaxAge(0);
+                HttpSession session = request.getSession(false);
+                if(session != null){
+                    System.out.println("invalidando sessione");
+                    session.invalidate();
+                }
                 //TODO: sarebbe buona pratica rimuovere tutti i cookie di questo utente dal db
                 //TODO: (prev) per evitare che la gente si salvi sessioni che non dovrebbero più essere valide
                 //TODO: (prev) e per non appesantire il db con sessioni scadute
                 response.addCookie(authCookieRemove);
-                response.sendRedirect(appPath);
+                request.getRequestDispatcher("/").forward(request, response);
                 break;
         }
     }

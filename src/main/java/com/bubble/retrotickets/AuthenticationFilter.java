@@ -8,6 +8,7 @@ import javax.servlet.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -37,23 +38,32 @@ public class AuthenticationFilter implements Filter {
         for (Cookie cookie : cookies) {
             cookieMap.put(cookie.getName(), cookie);
         }
+        String sessionValue = null;
         Cookie authCookie = cookieMap.get("auth");
-        if(authCookie == null){
-            //TODO: handle session
-            httpRes.sendRedirect(appPath);
+        HttpSession session = httpReq.getSession(false);
+
+        if(authCookie != null){
+            sessionValue = authCookie.getValue();
+            System.out.println("cookie trovato: "+ sessionValue);
+        } else if (session != null && session.getAttribute("auth") != null){
+            sessionValue = (String) session.getAttribute("auth");
+            System.out.println("sessione trovata: "+ sessionValue);
+        }
+
+        if(sessionValue == null){
+            request.getRequestDispatcher("/").forward(request, response);
         } else {
-            String sessionValue = authCookie.getValue();
             String sql = "SELECT username, data_scadenza FROM sessioni WHERE sessione = '" + sessionValue + "'";
             JSONArray result = Helpers.queryResultsToJson(dbConnection, sql);
             if(result.size() == 0){
-                httpRes.sendRedirect(appPath);
+                request.getRequestDispatcher("/").forward(request, response);
             } else {
                 JSONObject resultObj = (JSONObject) result.get(0);
                 long cookieExpireDate = (long) resultObj.get("DATA_SCADENZA");
                 String username = (String) resultObj.get("USERNAME");
                 request.setAttribute("username", username);
                 if(cookieExpireDate < (System.currentTimeMillis())){
-                    httpRes.sendRedirect(appPath + "/auth/logout");
+                    request.getRequestDispatcher("/auth/logout").forward(request, response);
                 } else {
                     chain.doFilter(request, response);
                 }

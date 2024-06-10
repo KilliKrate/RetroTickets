@@ -37,7 +37,7 @@ public class AuthorizationFilter implements Filter {
         if(isAdmin){
             chain.doFilter(request, response);
         } else {
-            httpRes.sendRedirect(appPath);
+            request.getRequestDispatcher("/").forward(request, response);
         }
     }
 }
