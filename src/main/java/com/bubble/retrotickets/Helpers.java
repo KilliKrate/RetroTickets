@@ -5,10 +5,14 @@ import org.jooq.tools.json.JSONObject;
 import org.jooq.tools.json.JSONParser;
 import org.jooq.tools.json.ParseException;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.*;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Helpers {
@@ -44,6 +48,17 @@ public class Helpers {
                 json.add(obj);
             }
             return json;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static int executeUpdateResults(Connection dbConnection, String sql) {
+        try {
+            //TODO: parameter sanitization
+            Statement stmt = dbConnection.createStatement();
+            return stmt.executeUpdate(sql);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -87,5 +102,12 @@ public class Helpers {
         JSONParser parse = new JSONParser();
         JSONArray data_obj = (JSONArray) parse.parse(inline);
         return data_obj;
+    }
+
+    public Optional<String> readCookie(HttpServletRequest request, String key) {
+        return Arrays.stream(request.getCookies())
+                .filter(c -> key.equals(c.getName()))
+                .map(Cookie::getValue)
+                .findAny();
     }
 }

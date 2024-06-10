@@ -11,7 +11,20 @@ create table utenti
     DATA_NASCITA DATE         not null,
     EMAIL        VARCHAR(255) not null
         unique,
-    NUM_TELEFONO CHAR(10)     not null
+    NUM_TELEFONO CHAR(10)     not null,
+    admin boolean default false not null
+
+);
+
+create table sessioni
+(
+    sessione      varchar(255) not null
+        constraint sessioni_pk
+            primary key,
+    data_scadenza bigint         not null,
+    username        varchar(63)  not null
+        constraint "sessioni_UTENTI_USERNAME_fk"
+            references UTENTI (username)
 );
 
 create table localita
@@ -20,6 +33,7 @@ create table localita
         constraint localita_pk
             primary key
 );
+
 
 insert into localita (NOME)
 values  ('Arco'),
@@ -97,3 +111,6 @@ INSERT INTO POSTI (NOME, PREZZO, EVENTO) VALUES ('Sotto al palco', 120.00, 3);
 INSERT INTO POSTI (NOME, PREZZO, EVENTO) VALUES ('Platea', 200.00, 4);
 INSERT INTO POSTI (NOME, PREZZO, EVENTO) VALUES ('Ingresso', 15.00, 5);
 INSERT INTO POSTI (NOME, PREZZO, EVENTO) VALUES ('Ingresso', 15.00, 6);
+
+insert into UTENTI (USERNAME, PASSWORD, NOME, COGNOME, DATA_NASCITA, EMAIL, NUM_TELEFONO) values ('matteo', 'test', 'matteo', 'casarotto', '2024-06-06', 'casarottosantana@gmail.com', '3348548267');
+
