@@ -46,17 +46,17 @@ public class AuthenticationFilter implements Filter {
         }
 
         if(sessionValue == null){
-            request.getRequestDispatcher("/auth/logout").forward(httpReq, httpRes);
+            request.getRequestDispatcher("/auth").forward(httpReq, httpRes);
         } else {
             String sql = "SELECT username, data_scadenza FROM sessioni WHERE sessione = '" + sessionValue + "'";
             JSONArray result = Helpers.queryResultsToJson(dbConnection, sql);
             if(result.size() == 0){
-                request.getRequestDispatcher("/auth/logout").forward(httpReq, httpRes);
+                request.getRequestDispatcher("/auth").forward(httpReq, httpRes);
             } else {
                 JSONObject resultObj = (JSONObject) result.get(0);
                 long cookieExpireDate = (long) resultObj.get("DATA_SCADENZA");
                 if(cookieExpireDate < (System.currentTimeMillis())){
-                    request.getRequestDispatcher("/auth/logout").forward(httpReq, httpRes);
+                    request.getRequestDispatcher("/auth").forward(httpReq, httpRes);
                 } else {
                     String username = (String) resultObj.get("USERNAME");
                     request.setAttribute("username", username);

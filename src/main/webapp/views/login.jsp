@@ -19,13 +19,13 @@
     <input class="w-100 mt-2 rounded-2" type="password" id="password" placeholder="password">
     <p class="text-danger d-none" id="wrongCredentialsText">Credenziali errate, riprova.</p>
     <button class="mt-2 rounded-2 bg-primary text-light" id="loginButton">Accedi</button>
-    <p class="mt-2">Non hai un profilo? <a href=<%=appPath%>>Registrati</a></p>
+    <p class="mt-2">Non hai un profilo? <a href=<%=appPath + "/register"%>>Registrati</a></p>
     <%
         Object requestError = request.getParameter("error");
         if(Objects.equals(requestError, "true")){
     %>
     <div class="alert alert-danger w-100" role="alert">
-        Prima di accedere a questa pagina effettua il login!
+        Effettua l'accesso prima di accedere a questa pagina.
     </div>
     <%}%>
 
@@ -55,6 +55,8 @@
             console.log("fatto cazzata")
             let text = document.querySelector("#wrongCredentialsText");
             text.classList.remove("d-none");
+        } else if (response.status = 200){
+            window.location.href = "<%=APIURL%>";
         }
     });
 </script>

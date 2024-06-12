@@ -71,7 +71,7 @@ public class AccessController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doLogout(request, response);
-        request.getRequestDispatcher("/login").forward(request, response);
+        request.getRequestDispatcher("/login?error=true").forward(request, response);
     }
 
     private boolean tryLogin(String username, String password){
