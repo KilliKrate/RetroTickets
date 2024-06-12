@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary py-0 px-2">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="/RetroTickets_war_exploded/media/logo_small.svg" alt="Retro Tickets" height="64" class="d-inline-block align-text-center me-2">
+            <img src="${pageContext.request.contextPath}/media/logo_small.svg" alt="Retro Tickets" height="64" class="d-inline-block align-text-center me-2">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

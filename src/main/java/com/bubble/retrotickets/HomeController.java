@@ -21,7 +21,7 @@ public class HomeController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        JSONArray events = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM eventi");
+        JSONArray events = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM eventi ORDER BY clicks DESC");
         JSONArray categories = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM categorie");
 
         getServletContext().setAttribute("root", request.getRequestURL());

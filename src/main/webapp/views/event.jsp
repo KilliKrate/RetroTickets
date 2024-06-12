@@ -6,7 +6,7 @@
 <!doctype html>
 <html lang="it">
 <head>
-    <%@include file="/partials/headTags.html" %>
+    <%@include file="/partials/headTags.jsp" %>
     <style>
         .image-container {
             position: relative;
@@ -48,7 +48,7 @@
     <div class="row p-0">
         <div class="col-lg-6">
             <div class="image-container mb-3 mb-md-0"
-                 style="background-image: url('/RetroTickets_war_exploded/event_images/<%= event.get("IMAGE")%>');"></div>
+                 style="background-image: url('${pageContext.request.contextPath}/event_images/<%= event.get("IMAGE")%>');"></div>
         </div>
         <div class="col-lg-6">
             <p class="lead mb-2">Dove: <span class="fw-normal"><%=event.get("LOCALITA")%></span></p>

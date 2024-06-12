@@ -39,7 +39,9 @@ public class EventsController extends HttpServlet {
                     request.getParameter("category"));
             response.getWriter().write(eventJSON.toString());
         } else {
-            request.setAttribute("event", getEventResource(pathInfo.substring(1), null).get(0));
+            String eventId = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/")+1);
+            request.setAttribute("event", getEventResource(eventId, null).get(0));
+            Helpers.executeUpdateResults(dbConnection, "UPDATE eventi SET clicks = clicks + 1 WHERE id = "+eventId);
             request.getRequestDispatcher("/views/event.jsp").forward(request, response);
         }
     }

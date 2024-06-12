@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
-  <%@include file="/partials/headTags.html" %>
+  <%@include file="/partials/headTags.jsp" %>
 </head>
 <body>
 <div class="container d-flex justify-content-center align-items-center flex-column h-100">
