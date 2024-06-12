@@ -7,7 +7,9 @@ import org.jooq.tools.json.ParseException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.*;
@@ -104,10 +106,26 @@ public class Helpers {
         return data_obj;
     }
 
-    public Optional<String> readCookie(HttpServletRequest request, String key) {
+    public static Optional<String> readCookie(HttpServletRequest request, String key) {
         return Arrays.stream(request.getCookies())
                 .filter(c -> key.equals(c.getName()))
                 .map(Cookie::getValue)
                 .findAny();
+    }
+
+    public static String getAPIURL(HttpServletRequest req){
+        String URL = req.getRequestURL().toString();
+        int length = req.getRequestURL().length() - req.getServletPath().length();
+        return URL.substring(0,length);
+    }
+
+    public static JSONObject postBodyToJSON(HttpServletRequest req) throws IOException {
+        JSONObject reqJson = new JSONObject();
+        Reader reqReader = req.getReader();
+        JSONParser parser = new JSONParser();
+        try {
+            reqJson = (JSONObject) parser.parse(reqReader);
+        } catch (ParseException ignored){}
+        return reqJson;
     }
 }

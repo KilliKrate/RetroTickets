@@ -5,10 +5,7 @@ import org.jooq.tools.json.JSONObject;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -44,30 +41,30 @@ public class AuthenticationFilter implements Filter {
 
         if(authCookie != null){
             sessionValue = authCookie.getValue();
-            System.out.println("cookie trovato: "+ sessionValue);
         } else if (session != null && session.getAttribute("auth") != null){
             sessionValue = (String) session.getAttribute("auth");
-            System.out.println("sessione trovata: "+ sessionValue);
         }
 
         if(sessionValue == null){
-            request.getRequestDispatcher("/").forward(request, response);
+            request.getRequestDispatcher("/auth/logout").forward(httpReq, httpRes);
         } else {
             String sql = "SELECT username, data_scadenza FROM sessioni WHERE sessione = '" + sessionValue + "'";
             JSONArray result = Helpers.queryResultsToJson(dbConnection, sql);
             if(result.size() == 0){
-                request.getRequestDispatcher("/").forward(request, response);
+                request.getRequestDispatcher("/auth/logout").forward(httpReq, httpRes);
             } else {
                 JSONObject resultObj = (JSONObject) result.get(0);
                 long cookieExpireDate = (long) resultObj.get("DATA_SCADENZA");
-                String username = (String) resultObj.get("USERNAME");
-                request.setAttribute("username", username);
                 if(cookieExpireDate < (System.currentTimeMillis())){
-                    request.getRequestDispatcher("/auth/logout").forward(request, response);
+                    request.getRequestDispatcher("/auth/logout").forward(httpReq, httpRes);
                 } else {
+                    String username = (String) resultObj.get("USERNAME");
+                    request.setAttribute("username", username);
                     chain.doFilter(request, response);
                 }
             }
         }
+
+
     }
 }

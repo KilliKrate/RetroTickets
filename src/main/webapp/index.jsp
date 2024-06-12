@@ -36,7 +36,7 @@
             for (Object o : categories) {
                 JSONObject category = (JSONObject) o;
         %>
-        <a href="#" class="p-2 mx-3" data-category="<%=category.get("NOME")%>"><%= category.get("NOME") %>
+        <a href="#" class="pl’amministratore sia loggato o meno. In più, una volta che l’utente o l’amministratore -2 mx-3" data-category="<%=category.get("NOME")%>"><%= category.get("NOME") %>
         </a>
         <% } %>
     </nav>

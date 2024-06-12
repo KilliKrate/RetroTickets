@@ -26,17 +26,16 @@ public class AccessController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        JSONObject body = Helpers.postBodyToJSON(request);
+        String action = (String) body.get("action");
 
-        String pathInfo = request.getServletPath();
-        String operation = pathInfo.substring(6);
-
-        switch (operation) {
+        switch (action) {
             case "login":
-                String username = request.getParameter("username");
-                String password = request.getParameter("password");
+                String username = (String) body.get("username");
+                String password = (String) body.get("password");
                 if (tryLogin(username, password)) {
                     String session = generateSession(255);
                     long expire_date = System.currentTimeMillis() + (1000 * 60 * 60 * 24);
@@ -51,7 +50,6 @@ public class AccessController extends HttpServlet {
                     authCookie.setMaxAge(60*60*24);
                     authCookie.setPath(appPath);
                     response.addCookie(authCookie);
-                    request.getRequestDispatcher("/").forward(request, response);
                 } else {
                     response.setStatus(401);
                 }
@@ -60,24 +58,20 @@ public class AccessController extends HttpServlet {
                 //get register data
                 //call register function
                 //add session to db
-                request.getRequestDispatcher("/").forward(request, response);
                 break;
             case "logout":
-                Cookie authCookieRemove = new Cookie("auth", "");
-                authCookieRemove.setPath(appPath);
-                authCookieRemove.setMaxAge(0);
-                HttpSession session = request.getSession(false);
-                if(session != null){
-                    System.out.println("invalidando sessione");
-                    session.invalidate();
-                }
-                //TODO: sarebbe buona pratica rimuovere tutti i cookie di questo utente dal db
-                //TODO: (prev) per evitare che la gente si salvi sessioni che non dovrebbero più essere valide
-                //TODO: (prev) e per non appesantire il db con sessioni scadute
-                response.addCookie(authCookieRemove);
-                request.getRequestDispatcher("/").forward(request, response);
+                doLogout(request, response);
+                break;
+            default:
+                //error
                 break;
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doLogout(request, response);
+        request.getRequestDispatcher("/login").forward(request, response);
     }
 
     private boolean tryLogin(String username, String password){
@@ -103,5 +97,19 @@ public class AccessController extends HttpServlet {
             salt.append(SALTCHARS.charAt(index));
         }
         return salt.toString();
+    }
+
+    private void doLogout(HttpServletRequest req, HttpServletResponse res){
+        HttpSession session = req.getSession(false);
+        Cookie authCookieRemove = new Cookie("auth", "");
+        authCookieRemove.setPath(appPath);
+        authCookieRemove.setMaxAge(0);
+        if(session != null){
+            session.invalidate();
+        }
+        //TODO: sarebbe buona pratica rimuovere tutti i cookie di questo utente dal db
+        //TODO: (prev) per evitare che la gente si salvi sessioni che non dovrebbero più essere valide
+        //TODO: (prev) e per non appesantire il db con sessioni scadute
+        res.addCookie(authCookieRemove);
     }
 }
