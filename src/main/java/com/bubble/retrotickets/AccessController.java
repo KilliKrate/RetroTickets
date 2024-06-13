@@ -80,7 +80,7 @@ public class AccessController extends HttpServlet {
         }
         String sql = "SELECT * FROM utenti WHERE username = '" + username + "'";
         JSONArray result = Helpers.queryResultsToJson(dbConnection, sql);
-        if(result.size() == 0){
+        if(result.isEmpty()){
             return false;
         }
 

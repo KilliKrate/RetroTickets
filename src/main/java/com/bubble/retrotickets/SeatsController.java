@@ -29,19 +29,20 @@ public class SeatsController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         JSONArray eventJSON = getSeatResource(
+                dbConnection,
                 request.getParameter("evento"),
                 request.getParameter("nome"));
         response.getWriter().write(eventJSON.toString());
     }
 
-    private JSONArray getSeatResource(String evento, String nome) {
+    public static JSONArray getSeatResource(Connection dbConnection, String evento, String nome) {
         String sql = "SELECT * FROM posti";
 
         if (evento != null && nome != null) {
-            sql = "SELECT * FROM eventi WHERE evento = " + evento + " AND nome = " + nome;
+            sql = "SELECT * FROM posti WHERE evento = " + evento + " AND nome = '" + nome+ "'";
         }
         else if (evento != null) {
-            sql = "SELECT * FROM eventi WHERE evento = " + evento;
+            sql = "SELECT * FROM posti WHERE evento = " + evento;
         }
         return Helpers.queryResultsToJson(dbConnection, sql);
     }

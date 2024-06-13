@@ -6,6 +6,7 @@
 <!doctype html>
 <html lang="it">
 <head>
+    <title>RetroTickets</title>
     <%@include file="/partials/headTags.jsp" %>
     <style>
         .image-container {
@@ -65,16 +66,19 @@
                         JSONObject posto = (JSONObject) o;
                 %>
                 <div class="card my-2">
-                    <form class="card-body p-0 ps-3 d-flex align-items-center justify-content-between">
+                    <form class="card-body p-0 ps-3 d-flex align-items-center justify-content-between"
+                          action="${pageContext.request.contextPath}/purchase" method="get">
                         <div class="h-100">
-                            <p class="m-0"><span class="fw-bold me-3"><%=posto.get("NOME")%>
-                                <% if (discount != null) {%>
-                            </span> <s class="me-2"><%=posto.get("PREZZO")%>€</s>
-                                <%=DiscountsController.getDiscountedPrice(posto, percentage)%>€</p>
+                            <p class="m-0"><span class="fw-bold me-3"><%=posto.get("NOME")%></span>
+                            <% if (discount != null) {%>
+                            <s class="me-2"><%=posto.get("PREZZO")%>€</s>
+                            <%=DiscountsController.getDiscountedPrice(posto, percentage)%>€
                             <%} else {%>
-                                </span><%=posto.get("PREZZO")%>€</span>
+                            <span><%=posto.get("PREZZO")%>€</span>
                             <%}%>
+                            </p>
                             <input type="hidden" name="name" value="<%=posto.get("NOME")%>">
+                            <input type="hidden" name="event" value="<%=posto.get("EVENTO")%>">
                         </div>
                         <button type="submit" class="btn btn-primary p-3">Acquista</button>
                     </form>

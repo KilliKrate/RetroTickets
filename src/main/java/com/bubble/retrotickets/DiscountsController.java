@@ -36,11 +36,6 @@ public class DiscountsController extends HttpServlet {
         response.getWriter().write(discounts.toString());
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     private static JSONArray generateDiscounts(JSONArray events) {
         JSONArray discounts = new JSONArray();
         boolean[] discount_ids = new boolean[events.size()];

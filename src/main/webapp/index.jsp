@@ -4,6 +4,7 @@
 <!doctype html>
 <html lang="it">
 <head>
+    <title> RetroTickets </title>
     <%@include file="/partials/headTags.jsp" %>
     <style>
         tr {

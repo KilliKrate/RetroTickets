@@ -31,22 +31,21 @@ public class EventsController extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String pathInfo = request.getPathInfo();
+        String id = request.getParameter("id");
+        String category = request.getParameter("category");
 
-        if (pathInfo == null) {
-            JSONArray eventJSON = getEventResource(
-                    request.getParameter("id"),
-                    request.getParameter("category"));
+        if ( id != null || category != null) {
+            JSONArray eventJSON = getEventResource(dbConnection, id, category);
             response.getWriter().write(eventJSON.toString());
         } else {
             String eventId = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/")+1);
-            request.setAttribute("event", getEventResource(eventId, null).get(0));
+            request.setAttribute("event", getEventResource(dbConnection, eventId, null).get(0));
             Helpers.executeUpdateResults(dbConnection, "UPDATE eventi SET clicks = clicks + 1 WHERE id = "+eventId);
             request.getRequestDispatcher("/views/event.jsp").forward(request, response);
         }
     }
 
-    private JSONArray getEventResource(String id, String category) {
+    public static JSONArray getEventResource(Connection dbConnection, String id, String category) {
         String sql = "SELECT * FROM eventi";
 
         if (id != null) {

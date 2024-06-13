@@ -4,6 +4,26 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+    <!-- CONTEXT PARAMETERS -->
+    <context-param>
+        <param-name>DbUrl</param-name>
+        <param-value>jdbc:derby://localhost:1527/RetroTicketsDB</param-value>
+    </context-param>
+    <context-param>
+        <param-name>DbUser</param-name>
+        <param-value>admin</param-value>
+    </context-param>
+    <context-param>
+        <param-name>DbPass</param-name>
+        <param-value>admin</param-value>
+    </context-param>
+    <context-param>
+        <param-name>appPath</param-name>
+        <param-value>/RetroTickets_war_exploded</param-value>
+    </context-param>
+
+    <!-- SERVLETS AND SERVLET MAPPINGS -->
+
     <servlet>
         <servlet-name>HomeController</servlet-name>
         <servlet-class>com.bubble.retrotickets.HomeController</servlet-class>
@@ -89,22 +109,20 @@
         <url-pattern>/discounts</url-pattern>
     </servlet-mapping>
 
-    <context-param>
-        <param-name>DbUrl</param-name>
-        <param-value>jdbc:derby://localhost:1527/RetroTicketsDB</param-value>
-    </context-param>
-    <context-param>
-        <param-name>DbUser</param-name>
-        <param-value>admin</param-value>
-    </context-param>
-    <context-param>
-        <param-name>DbPass</param-name>
-        <param-value>admin</param-value>
-    </context-param>
-    <context-param>
-        <param-name>appPath</param-name>
-        <param-value>/RetroTickets_war_exploded</param-value>
-    </context-param>
+    <servlet>
+        <servlet-name>PurchaseController</servlet-name>
+        <servlet-class>com.bubble.retrotickets.PurchaseController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PurchaseController</servlet-name>
+        <url-pattern>/purchase</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PurchaseController</servlet-name>
+        <url-pattern>/confirmation</url-pattern>
+    </servlet-mapping>
+
+    <!-- FILTERS AND FILTER MAPPINGS -->
 
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
@@ -130,6 +148,8 @@
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/profile</url-pattern>
         <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/purchase</url-pattern>
+        <url-pattern>/confirmation</url-pattern>
     </filter-mapping>
 
     <filter>

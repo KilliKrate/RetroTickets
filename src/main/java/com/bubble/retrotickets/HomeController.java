@@ -33,8 +33,4 @@ public class HomeController extends HttpServlet {
 
     public void destroy() {
     }
-
-
-
-
 }

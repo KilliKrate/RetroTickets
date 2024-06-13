@@ -50,7 +50,7 @@ public class AuthenticationFilter implements Filter {
         } else {
             String sql = "SELECT username, data_scadenza FROM sessioni WHERE sessione = '" + sessionValue + "'";
             JSONArray result = Helpers.queryResultsToJson(dbConnection, sql);
-            if(result.size() == 0){
+            if(result.isEmpty()){
                 request.getRequestDispatcher("/auth").forward(httpReq, httpRes);
             } else {
                 JSONObject resultObj = (JSONObject) result.get(0);

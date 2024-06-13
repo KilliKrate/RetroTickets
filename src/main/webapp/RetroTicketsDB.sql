@@ -79,6 +79,7 @@ INSERT INTO EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA, IMAGE) VALUES ('199
 INSERT INTO EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA, IMAGE) VALUES ('Museo delle forcine per i capelli', 'Riva del Garda', 'Visita guidata', default, '2024-06-09 16:00:00.000000000', 'chad-greiter--0gBnnMdQPw-unsplash.jpg');
 INSERT INTO EVENTI (NOME, LOCALITA, CATEGORIA, CLICKS, DATA, IMAGE) VALUES ('Museo del freddo ai piedi', 'Riva del Garda', 'Visita guidata', 0, '2024-06-10 13:05:15.000000000', 'ian-dooley-ZLBzMGle-nE-unsplash.jpg');
 
+/*
 create table sconti
 (
     id       INTEGER generated always as identity
@@ -90,13 +91,14 @@ create table sconti
     percentuale   DECIMAL(3, 2) not null,
     scadenza timestamp default current_timestamp not null
 );
+*/
 
 create table posti
 (
     NOME     VARCHAR(255)  not null,
     PREZZO   DECIMAL(8, 2) not null,
     EVENTO   INTEGER       not null
-        constraint "posti_EVENTI_null_fk"
+        constraint "posti_EVENTI_ID_fk"
             references EVENTI,
     constraint POSTI_PK
         primary key (EVENTO, NOME)
@@ -114,3 +116,17 @@ INSERT INTO POSTI (NOME, PREZZO, EVENTO) VALUES ('Ingresso', 15.00, 6);
 
 INSERT INTO UTENTI (USERNAME, PASSWORD, NOME, COGNOME, DATA_NASCITA, EMAIL, NUM_TELEFONO, ADMIN) VALUES ('utente', 'utente!08', 'matteo', 'casarotto', '2024-06-06', 'casarottosantana@gmail.com', '3348548267', false);
 INSERT INTO UTENTI (USERNAME, PASSWORD, NOME, COGNOME, DATA_NASCITA, EMAIL, NUM_TELEFONO, ADMIN) VALUES ('admin', '08nimda!', 'ovidiu costin', 'andrioaia', '2024-06-12', 'ovidiu.andrioaia@yahoo.it', '3922931424', true);
+
+create table ACQUISTI
+(
+    id     INTEGER generated always as identity
+        constraint ACQUISTI_pk
+            primary key,
+    evento INTEGER                             not null,
+    posto  VARCHAR(255)                        not null,
+    utente VARCHAR(63)                         not null,
+    data   TIMESTAMP default CURRENT_TIMESTAMP not null,
+    prezzo DECIMAL(8, 2)                       not null,
+    constraint ACQUISTI_POSTI_NOME_EVENTO_fk
+        foreign key (evento, posto) references POSTI (EVENTO, NOME)
+);
