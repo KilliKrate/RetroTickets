@@ -18,6 +18,7 @@
 <%
     JSONObject posto = (JSONObject) request.getAttribute("posto");
     JSONObject event = (JSONObject) request.getAttribute("event");
+    boolean gratis = (boolean) request.getAttribute("gratis");
 
     JSONArray discounts = Helpers.apiResultsToJson(
             pageContext.getServletContext().getAttribute("root") + "/discounts",
@@ -36,14 +37,18 @@
 
         <div class="card mb-2">
             <div class="card-body d-flex justify-content-between ">
-                <p class="fw-bold mb-0"><%=posto.get("NOME")%></p>
+                <p class="fw-bold mb-0"><%=posto.get("NOME")%>
+                </p>
                 <div>
-                    <% if (discount != null) {%>
+                    <% if (gratis) {%>
+                    <s class="me-1"><%=posto.get("PREZZO")%>€</s>
+                    GRATIS!
+                    <%} else if (discount != null) {%>
                     <s class="me-1"><%=posto.get("PREZZO")%>€</s>
                     <%=DiscountsController.getDiscountedPrice(posto, percentage)%>€
-                    <%} else {%>
-                    <span><%=posto.get("PREZZO")%>€</span>
-                <%}%>
+                    <%} else { %>
+                        <span><%=posto.get("PREZZO")%>€</span>
+                    <%}%>
                 </div>
             </div>
         </div>

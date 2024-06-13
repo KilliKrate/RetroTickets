@@ -31,10 +31,15 @@ public class PurchaseController extends HttpServlet {
 
         String name = request.getParameter("name");
         String event = request.getParameter("event");
+        String username = (String) request.getAttribute("username");
 
         if (name != null || event != null) {
             request.setAttribute("event", EventsController.getEventResource(dbConnection, event, null).get(0));
             request.setAttribute("posto", SeatsController.getSeatResource(dbConnection, event, name).get(0));
+
+            JSONArray acquisti = (JSONArray) Helpers.queryResultsToJson(dbConnection, "SELECT * FROM acquisti WHERE utente = '" +username+ "'");
+            request.setAttribute("gratis", (acquisti.size() % 5 == 4));
+
             request.getRequestDispatcher("/views/purchase.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("/").forward(request, response);
@@ -48,6 +53,9 @@ public class PurchaseController extends HttpServlet {
         String nomePosto = (String) request.getParameter("posto");
         String username = (String) request.getAttribute("username");
 
+        JSONArray acquisti = (JSONArray) Helpers.queryResultsToJson(dbConnection, "SELECT * FROM acquisti WHERE utente = '" +username+ "'");
+        boolean gratis = acquisti.size() % 5 == 4;
+
         if (eventId != null && nomePosto != null) {
             JSONObject posto = (JSONObject) SeatsController.getSeatResource(dbConnection, eventId, nomePosto).get(0);
             double prezzo = ((BigDecimal) posto.get("PREZZO")).doubleValue();
@@ -59,7 +67,10 @@ public class PurchaseController extends HttpServlet {
 
             JSONObject discount = DiscountsController.getDiscountById(discounts, Integer.parseInt(eventId));
 
-            if (discount != null) {
+            if (gratis) {
+                prezzo = 0.0d;
+            }
+            else if (discount != null) {
                 Double percentage = (Double) discount.get("PERCENTUALE");
                 prezzo = Double.parseDouble(DiscountsController.getDiscountedPrice(posto, percentage));
             }
