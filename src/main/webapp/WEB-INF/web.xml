@@ -92,12 +92,16 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>AdminPageController</servlet-name>
-        <servlet-class>com.bubble.retrotickets.AdminPageController</servlet-class>
+        <servlet-name>DashboardController</servlet-name>
+        <servlet-class>com.bubble.retrotickets.DashboardController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AdminPageController</servlet-name>
-        <url-pattern>/dashboard</url-pattern>
+        <servlet-name>DashboardController</servlet-name>
+        <url-pattern>/manageUsers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardController</servlet-name>
+        <url-pattern>/manageEvents</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -147,7 +151,8 @@
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/profile</url-pattern>
-        <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/manageUsers</url-pattern>
+        <url-pattern>/manageEvents</url-pattern>
         <url-pattern>/purchase</url-pattern>
         <url-pattern>/confirmation</url-pattern>
     </filter-mapping>
@@ -174,6 +179,7 @@
     </filter>
     <filter-mapping>
         <filter-name>AuthorizationFilter</filter-name>
-        <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/manageUsers</url-pattern>
+        <url-pattern>/manageEvents</url-pattern>
     </filter-mapping>
 </web-app>

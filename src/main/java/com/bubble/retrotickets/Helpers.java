@@ -7,7 +7,6 @@ import org.jooq.tools.json.ParseException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.HttpURLConnection;
