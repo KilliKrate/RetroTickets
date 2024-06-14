@@ -26,7 +26,9 @@ public class DashboardController extends HttpServlet {
 
         switch (pathInfo) {
             case "/manageUsers":
-                JSONArray utenti = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM utenti");
+                JSONArray utenti = Helpers.queryResultsToJson(dbConnection,
+                        "SELECT U.*, A.num_acquisti FROM utenti AS U JOIN ACQUISTI_UTENTE AS A" +
+                                " ON A.username = U.username");
                 request.setAttribute("utenti", utenti);
                 request.getRequestDispatcher("/views/manageusers.jsp").forward(request, response);
                 break;
@@ -34,6 +36,14 @@ public class DashboardController extends HttpServlet {
                 JSONArray events = Helpers.queryResultsToJson(dbConnection, "SELECT * FROM eventi");
                 request.setAttribute("events", events);
                 request.getRequestDispatcher("/views/manageevents.jsp").forward(request, response);
+                break;
+            case "/users":
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                JSONArray users = Helpers.queryResultsToJson(dbConnection,
+                        "SELECT U.*, A.num_acquisti FROM utenti AS U JOIN ACQUISTI_UTENTE AS A" +
+                                " ON A.username = U.username");
+                response.getWriter().print(users);
                 break;
         }
     }
