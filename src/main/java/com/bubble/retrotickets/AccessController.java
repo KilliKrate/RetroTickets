@@ -67,9 +67,6 @@ public class AccessController extends HttpServlet {
             case "logout":
                 doLogout(request, response);
                 break;
-            case "status":
-                getStatus(request, response);
-                break;
             default:
                 //error
                 break;
@@ -80,49 +77,6 @@ public class AccessController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doLogout(request, response);
         request.getRequestDispatcher("/login?error=true").forward(request, response);
-    }
-
-    private void getStatus(HttpServletRequest request, HttpServletResponse response){
-        String status = "visitor";
-        Cookie[] cookies = request.getCookies();
-        Map<String, Cookie> cookieMap = new HashMap<>();
-        for (Cookie cookie : cookies) {
-            cookieMap.put(cookie.getName(), cookie);
-        }
-        String sessionValue = null;
-        Cookie authCookie = cookieMap.get("auth");
-        HttpSession session = request.getSession(false);
-
-        if(authCookie != null){
-            sessionValue = authCookie.getValue();
-        } else if (session != null && session.getAttribute("auth") != null){
-            sessionValue = (String) session.getAttribute("auth");
-        }
-
-        if(sessionValue != null){
-            System.out.println(sessionValue);
-            String sql = "SELECT username, data_scadenza FROM sessioni WHERE sessione = '" + sessionValue + "'";
-            JSONArray result = Helpers.queryResultsToJson(dbConnection, sql);
-            if(!result.isEmpty()){
-                JSONObject resultObj = (JSONObject) result.get(0);
-                long cookieExpireDate = (long) resultObj.get("DATA_SCADENZA");
-                System.out.println(cookieExpireDate);
-                if(cookieExpireDate > (System.currentTimeMillis())){
-                    System.out.println("sessione valida");
-                    String username = (String) resultObj.get("USERNAME");
-                    sql = "SELECT admin FROM utenti WHERE username = '" + username + "'";
-                    result = Helpers.queryResultsToJson(dbConnection, sql);
-                    JSONObject userStatus = (JSONObject) result.get(0);
-                    boolean isAdmin = (boolean) userStatus.get("ADMIN");
-                    if(isAdmin){
-                        status = "admin";
-                    } else {
-                        status = "user";
-                    }
-                }
-            }
-        }
-        response.setHeader("authStatus", status);
     }
 
     private boolean tryLogin(String username, String password){

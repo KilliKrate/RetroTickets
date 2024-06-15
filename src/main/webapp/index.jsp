@@ -16,7 +16,7 @@
 <body>
 
 <div class="container">
-    <%@include file="/partials/navbar.jsp" %>
+    <jsp:include page="/partials/navbar.jsp" />
 
     <div class="px-4 py-2 my-4 text-center">
         <img class="d-block mx-auto my-2" src="${pageContext.request.contextPath}/media/logo.png" alt="Retro Tickets">
@@ -168,8 +168,6 @@
 
     updateDiscounts();
     let interval = window.setInterval(updateDiscounts, 15000);
-
-
 </script>
 </body>
 </html>

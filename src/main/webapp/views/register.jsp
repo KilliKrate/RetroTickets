@@ -10,7 +10,9 @@
     String appPath = (String)application.getInitParameter("appPath");
     String APIURL = Helpers.getAPIURL(request);
 %>
-<div class="container h-100 w-25 d-flex flex-column justify-content-center align-items-start">
+  <jsp:include page="/partials/navbar.jsp" />
+
+  <div class="container h-100 w-25 d-flex flex-column justify-content-center align-items-start">
   <h1>Registrati.</h1>
   <input class="w-100 mt-2 rounded-2" type="text" id="nome" placeholder="nome">
   <p class="text-danger" id="emptyFirstNameText">Il nome non può essere vuoto.</p>

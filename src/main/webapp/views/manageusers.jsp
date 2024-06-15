@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="container">
-    <%@include file="/partials/navbar.jsp" %>
+    <jsp:include page="/partials/navbar.jsp" />
 
     <%
         JSONArray utenti = (JSONArray) request.getAttribute("utenti");

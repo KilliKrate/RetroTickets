@@ -10,6 +10,7 @@
     String appPath = (String) application.getInitParameter("appPath");
     String APIURL = Helpers.getAPIURL(request);
 %>
+<jsp:include page="/partials/navbar.jsp" />
 
 <form class="container col-lg-4 col-md-6 h-100 d-flex flex-column justify-content-center align-items-start">
         <h1>Login</h1>
