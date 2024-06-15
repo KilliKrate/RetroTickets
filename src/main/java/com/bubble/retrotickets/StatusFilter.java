@@ -38,14 +38,21 @@ public class StatusFilter implements Filter {
 
     private String getStatus(HttpServletRequest request){
         String status = "visitor";
-        Cookie[] cookies = request.getCookies();
-        Map<String, Cookie> cookieMap = new HashMap<>();
-        for (Cookie cookie : cookies) {
-            cookieMap.put(cookie.getName(), cookie);
-        }
         String sessionValue = null;
-        Cookie authCookie = cookieMap.get("auth");
-        HttpSession session = request.getSession(false);
+        Map<String, Cookie> cookieMap = null;
+        Cookie authCookie = null;
+        HttpSession session = null;
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            cookieMap = new HashMap<>();
+            for (Cookie cookie : cookies) {
+                cookieMap.put(cookie.getName(), cookie);
+            }
+            authCookie = cookieMap.get("auth");
+        }
+
+        session = request.getSession(false);
 
         if(authCookie != null){
             sessionValue = authCookie.getValue();

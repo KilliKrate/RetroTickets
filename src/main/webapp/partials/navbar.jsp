@@ -11,7 +11,7 @@
 %>
 <nav class="navbar navbar-expand-lg bg-body-tertiary py-0 px-2">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/">
             <img src="${pageContext.request.contextPath}/media/logo_small.svg" alt="Retro Tickets" height="64"
                  class="d-inline-block align-text-center me-2">
         </a>
@@ -24,7 +24,7 @@
             <div class="navbar-nav w-100 d-flex justify-content-between">
                 <div class="d-flex">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/">Home</a>
                     </li>
                     <%if (status.equals("user") || status.equals("admin")) {%>
                     <a class="nav-link active" aria-current="page" href=<%=appPath + "/profile"%>>Profilo</a>
