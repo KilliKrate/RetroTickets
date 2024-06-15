@@ -33,7 +33,6 @@ create table localita
             primary key
 );
 
-
 insert into localita (NOME)
 values  ('Arco'),
         ('Povo'),
@@ -123,9 +122,14 @@ create table ACQUISTI
             primary key,
     evento INTEGER                             not null,
     posto  VARCHAR(255)                        not null,
-    utente VARCHAR(63)                         not null,
+    utente VARCHAR(63)                         not null
+        constraint ACQUISTI_UTENTI_USERNAME_FK
+            references ADMIN.UTENTI,
     data   TIMESTAMP default CURRENT_TIMESTAMP not null,
     prezzo DECIMAL(8, 2)                       not null,
     constraint ACQUISTI_POSTI_NOME_EVENTO_fk
-        foreign key (evento, posto) references POSTI (EVENTO, NOME)
+        foreign key (evento, posto) references POSTI (EVENTO, NOME) on delete cascade
 );
+
+create view ACQUISTI_UTENTE as
+SELECT U.USERNAME, COUNT(A.UTENTE) AS num_acquisti FROM UTENTI as U LEFT JOIN ACQUISTI AS A ON U.USERNAME = A.UTENTE GROUP BY U.USERNAME ;
