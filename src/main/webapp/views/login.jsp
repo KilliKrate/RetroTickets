@@ -3,7 +3,6 @@
 <html>
 <%@ page import="com.bubble.retrotickets.Helpers" %>
 <head>
-    <title>RetroTickets</title>
     <%@include file="/partials/headTags.jsp" %>
 </head>
 <body>
