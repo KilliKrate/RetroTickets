@@ -15,7 +15,7 @@
     <input class="w-100 mt-2 rounded-2" type="password" id="password" placeholder="password">
     <p class="text-danger d-none" id="wrongCredentialsText">Credenziali errate, riprova.</p>
     <button class="mt-2 rounded-2 bg-primary text-light" id="loginButton">Accedi</button>
-    <p class="mt-2">Non hai un profilo? <a href=<%=appPath + "/register"%>>Registrati</a></p>
+    <p class="mt-2">Non hai un profilo? <a href=<%=appPath + "/register"%>>Registrati.</a></p>
     <%
         Object requestError = request.getParameter("error");
         if(Objects.equals(requestError, "true")){

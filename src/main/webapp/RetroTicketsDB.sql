@@ -8,7 +8,7 @@ create table utenti
     PASSWORD     VARCHAR(63)  not null,
     NOME         VARCHAR(255) not null,
     COGNOME      VARCHAR(255) not null,
-    DATA_NASCITA DATE         not null,
+    DATA_NASCITA BIGINT         not null,
     EMAIL        VARCHAR(255) not null
         unique,
     NUM_TELEFONO CHAR(10)     not null,
@@ -112,5 +112,5 @@ INSERT INTO POSTI (NOME, PREZZO, EVENTO) VALUES ('Platea', 200.00, 4);
 INSERT INTO POSTI (NOME, PREZZO, EVENTO) VALUES ('Ingresso', 15.00, 5);
 INSERT INTO POSTI (NOME, PREZZO, EVENTO) VALUES ('Ingresso', 15.00, 6);
 
-INSERT INTO UTENTI (USERNAME, PASSWORD, NOME, COGNOME, DATA_NASCITA, EMAIL, NUM_TELEFONO, ADMIN) VALUES ('utente', 'utente!08', 'matteo', 'casarotto', '2024-06-06', 'casarottosantana@gmail.com', '3348548267', false);
-INSERT INTO UTENTI (USERNAME, PASSWORD, NOME, COGNOME, DATA_NASCITA, EMAIL, NUM_TELEFONO, ADMIN) VALUES ('admin', '08nimda!', 'ovidiu costin', 'andrioaia', '2024-06-12', 'ovidiu.andrioaia@yahoo.it', '3922931424', true);
+INSERT INTO UTENTI (USERNAME, PASSWORD, NOME, COGNOME, DATA_NASCITA, EMAIL, NUM_TELEFONO, ADMIN) VALUES ('utente', 'utente!08', 'matteo', 'casarotto', 997826400, 'casarottosantana@gmail.com', '3348548267', false);
+INSERT INTO UTENTI (USERNAME, PASSWORD, NOME, COGNOME, DATA_NASCITA, EMAIL, NUM_TELEFONO, ADMIN) VALUES ('admin', '08nimda!', 'ovidiu costin', 'andrioaia', 997826400, 'ovidiu.andrioaia@yahoo.it', '3922931424', true);
