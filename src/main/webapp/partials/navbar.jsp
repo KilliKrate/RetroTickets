@@ -1,6 +1,11 @@
 <%@ page import="com.bubble.retrotickets.Helpers" %>
 <%
     String status = (String) request.getAttribute("authstatus");
+
+    if (status == null) {
+        status = "visitor";
+    }
+
     String appPath = (String) application.getInitParameter("appPath");
     String APIURL = Helpers.getAPIURL(request);
 %>

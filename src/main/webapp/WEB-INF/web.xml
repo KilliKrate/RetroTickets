@@ -161,8 +161,6 @@
         <url-pattern>/</url-pattern>
         <url-pattern>/manageEvents</url-pattern>
         <url-pattern>/manageUsers</url-pattern>
-        <url-pattern>/login</url-pattern>
-        <url-pattern>/register</url-pattern>
     </filter-mapping>
 
     <filter>

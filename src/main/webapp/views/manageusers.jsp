@@ -1,5 +1,8 @@
 <%@ page import="org.jooq.tools.json.JSONArray" %>
-<%@ page import="org.jooq.tools.json.JSONObject" %><%--
+<%@ page import="org.jooq.tools.json.JSONObject" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: broken
   Date: 07/06/24
@@ -17,6 +20,7 @@
     <jsp:include page="/partials/navbar.jsp" />
 
     <%
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         JSONArray utenti = (JSONArray) request.getAttribute("utenti");
 
         if (utenti != null) { %>
@@ -49,7 +53,7 @@
             <td><%= utente.get("USERNAME")%></td>
             <td><%= utente.get("NOME")%></td>
             <td><%= utente.get("COGNOME")%></td>
-            <td><%= utente.get("DATA_NASCITA")%></td>
+            <td><%= sdf.format(new Date(((long) utente.get("DATA_NASCITA"))*1000))%></td>
             <td><%= utente.get("EMAIL")%></td>
             <td><%= utente.get("NUM_TELEFONO")%></td>
             <td><%= utente.get("NUM_ACQUISTI")%></td>
@@ -83,11 +87,21 @@
         let new_tbody = document.createElement("tbody");
         new_tbody.id = "users-table";
         for (const user of users) {
+
+            const today = new Date(user["DATA_NASCITA"]*1000)
+            const yyyy = today.getFullYear();
+            let mm = today.getMonth() + 1; // Months start at 0!
+            let dd = today.getDate();
+            if (dd < 10) dd = '0' + dd;
+            if (mm < 10) mm = '0' + mm;
+            const formattedToday = dd + '/' + mm + '/' + yyyy;
+
+
             let row = document.createElement("tr");
             row.insertAdjacentHTML('beforeend', "<td>"+user["USERNAME"]+"</td>")
             row.insertAdjacentHTML('beforeend', "<td>"+user["NOME"]+"</td>")
             row.insertAdjacentHTML('beforeend', "<td>"+user["COGNOME"]+"</td>")
-            row.insertAdjacentHTML('beforeend', "<td>"+user["DATA_NASCITA"]+"</td>")
+            row.insertAdjacentHTML('beforeend', "<td>"+formattedToday+"</td>")
             row.insertAdjacentHTML('beforeend', "<td>"+user["EMAIL"]+"</td>")
             row.insertAdjacentHTML('beforeend', "<td>"+user["NUM_TELEFONO"]+"</td>")
             row.insertAdjacentHTML('beforeend', "<td>"+user["NUM_ACQUISTI"]+"</td>")
