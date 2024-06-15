@@ -115,3 +115,17 @@ INSERT INTO POSTI (NOME, PREZZO, EVENTO) VALUES ('Ingresso', 15.00, 6);
 
 INSERT INTO UTENTI (USERNAME, PASSWORD, NOME, COGNOME, DATA_NASCITA, EMAIL, NUM_TELEFONO, ADMIN) VALUES ('utente', 'utente!08', 'matteo', 'casarotto', 997826400, 'casarottosantana@gmail.com', '3348548267', false);
 INSERT INTO UTENTI (USERNAME, PASSWORD, NOME, COGNOME, DATA_NASCITA, EMAIL, NUM_TELEFONO, ADMIN) VALUES ('admin', '08nimda!', 'ovidiu costin', 'andrioaia', 997826400, 'ovidiu.andrioaia@yahoo.it', '3922931424', true);
+
+create table ACQUISTI
+(
+    id     INTEGER generated always as identity
+        constraint ACQUISTI_pk
+            primary key,
+    evento INTEGER                             not null,
+    posto  VARCHAR(255)                        not null,
+    utente VARCHAR(63)                         not null,
+    data   TIMESTAMP default CURRENT_TIMESTAMP not null,
+    prezzo DECIMAL(8, 2)                       not null,
+    constraint ACQUISTI_POSTI_NOME_EVENTO_fk
+        foreign key (evento, posto) references POSTI (EVENTO, NOME)
+);
