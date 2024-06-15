@@ -13,7 +13,6 @@ create table utenti
         unique,
     NUM_TELEFONO CHAR(10)     not null,
     admin boolean default false not null
-
 );
 
 create table sessioni
@@ -99,7 +98,7 @@ create table posti
     PREZZO   DECIMAL(8, 2) not null,
     EVENTO   INTEGER       not null
         constraint "posti_EVENTI_ID_fk"
-            references EVENTI,
+            references EVENTI on delete cascade ,
     constraint POSTI_PK
         primary key (EVENTO, NOME)
 );
@@ -134,7 +133,7 @@ create table ACQUISTI
     data   TIMESTAMP default CURRENT_TIMESTAMP not null,
     prezzo DECIMAL(8, 2)                       not null,
     constraint ACQUISTI_POSTI_NOME_EVENTO_fk
-        foreign key (evento, posto) references POSTI (EVENTO, NOME)
+        foreign key (evento, posto) references POSTI (EVENTO, NOME) on delete cascade
 );
 
 create view ACQUISTI_UTENTE as

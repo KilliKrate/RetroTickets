@@ -105,6 +105,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DashboardController</servlet-name>
+        <url-pattern>/manageEvents/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DashboardController</servlet-name>
         <url-pattern>/users</url-pattern>
     </servlet-mapping>
 
@@ -157,6 +161,7 @@
         <url-pattern>/profile</url-pattern>
         <url-pattern>/manageUsers</url-pattern>
         <url-pattern>/manageEvents</url-pattern>
+        <url-pattern>/manageEvents/*</url-pattern>
         <url-pattern>/users</url-pattern>
         <url-pattern>/purchase</url-pattern>
         <url-pattern>/confirmation</url-pattern>
@@ -186,6 +191,7 @@
         <filter-name>AuthorizationFilter</filter-name>
         <url-pattern>/manageUsers</url-pattern>
         <url-pattern>/manageEvents</url-pattern>
+        <url-pattern>/manageEvents/*</url-pattern>
         <url-pattern>/users</url-pattern>
     </filter-mapping>
 </web-app>

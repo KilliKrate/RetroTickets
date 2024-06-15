@@ -47,4 +47,13 @@ public class DashboardController extends HttpServlet {
                 break;
         }
     }
+
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        String id = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/")+1);
+        int result = Helpers.executeUpdateResults(dbConnection, "DELETE FROM eventi WHERE id = "+id);
+        response.setStatus(result > 0 ? HttpServletResponse.SC_OK : HttpServletResponse.SC_NOT_FOUND);
+    }
 }
